@@ -10,6 +10,14 @@
 
 ### Lesson 02 - Compound Components
 
+- *The Compound Components Pattern enables you to provide a set of components that implicitly share state for a simple yet powerful declarative API for reusable components.*
+- Two parts two component components:
+  - Parent component:
+    - Parent `explictly` manages the state and passes it and updater methods to its children via a combination of `React.Children.map` and `React.cloneElement` API calls in order to implictly make the state and update methods available to its direct children
+  - Children componets:
+    - That indirectly consume state and methods that are managed by the parent
+- Beware that `React.cloneElement` only works on React elements and not on native DOM elements (use `child.type` to override nasty error messages)
+
 ### Lesson 03 - Flexible Compound Components
 
 ### Lesson 04 - Props Collections and Getters
