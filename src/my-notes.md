@@ -20,6 +20,8 @@
 
 ### Lesson 03 - Flexible Compound Components
 
+- The Parent component passes the state and methods via Context for consumption by any of its children (not limited to direct children as lesson 02 approach)
+
 ### Lesson 04 - Props Collections and Getters
 
 ### Lesson 05 - State Reducer
