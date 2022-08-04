@@ -15,10 +15,13 @@ function Toggle({children}) {
   // 📜 https://reactjs.org/docs/react-api.html#reactchildren
   // 📜 https://reactjs.org/docs/react-api.html#cloneelement
   return React.Children.map(children, child => {
-    return React.cloneElement(child, {
-      on,
-      toggle,
-    })
+    console.log('child:', child)
+    return typeof child.type !== 'string'
+      ? React.cloneElement(child, {
+          on,
+          toggle,
+        })
+      : child
   })
   // return <Switch on={on} onClick={toggle} />
 }
