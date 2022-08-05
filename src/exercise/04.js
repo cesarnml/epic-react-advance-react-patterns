@@ -16,19 +16,23 @@ function useToggle() {
     onClick: toggle,
   }
 
-  return {on, toggle, togglerProps}
+  function getTogglerProps(props) {
+    return {...props, ...togglerProps}
+  }
+  return {on, toggle, getTogglerProps}
 }
 
 function App() {
-  const {on, togglerProps} = useToggle()
+  const {on, getTogglerProps} = useToggle()
   return (
     <div>
-      <Switch on={on} {...togglerProps} />
+      <Switch {...getTogglerProps({on})} />
       <hr />
       <button
-        aria-label="custom-button"
-        onClick={() => console.info('onButtonClick')}
-        {...togglerProps}
+        {...getTogglerProps({
+          'aria-label': 'custom-button',
+          onClick: () => console.info('onButtonClick'),
+        })}
       >
         {on ? 'on' : 'off'}
       </button>
