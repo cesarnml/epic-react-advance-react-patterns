@@ -32,6 +32,7 @@ function App() {
         {...getTogglerProps({
           'aria-label': 'custom-button',
           onClick: () => console.info('onButtonClick'),
+          id: 'custom-button-id',
         })}
       >
         {on ? 'on' : 'off'}
