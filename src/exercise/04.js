@@ -23,7 +23,7 @@ function useToggle() {
   function getTogglerProps({onClick, ...props}) {
     return {
       ...togglerProps,
-      onClick: callAll(onClick, toggle),
+      onClick: callAll(() => onClick('test'), toggle),
       ...props,
     }
   }
