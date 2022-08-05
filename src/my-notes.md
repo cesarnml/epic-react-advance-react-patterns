@@ -25,6 +25,16 @@
 ### Lesson 04 - Props Collections and Getters
 
 - *The Prop Collections and Getters Pattern allows your hooks to support common use cases for UI elements people build with your hook*
+- `callAll` helper function takes an array of functions and calls them if they exist
+
+```javascript
+function callAll(...fns) {
+  return (...args) => fns.forEach(fn => fn && fn(...args))
+}
+```
+
+- A bit unclear on how the `args` work here
+
 
 ### Lesson 05 - State Reducer
 
