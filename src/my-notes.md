@@ -24,6 +24,8 @@
 
 ### Lesson 04 - Props Collections and Getters
 
+- *The Prop Collections and Getters Pattern allows your hooks to support common use cases for UI elements people build with your hook*
+
 ### Lesson 05 - State Reducer
 
 ### Lesson 06 - Control Props
