@@ -8,6 +8,8 @@ function callAll(...fns) {
   return (...args) => fns.forEach(fn => fn && fn(...args))
 }
 
+function noop() {}
+
 function useToggle() {
   const [on, setOn] = React.useState(false)
   const toggle = () => setOn(!on)
@@ -20,7 +22,7 @@ function useToggle() {
     onClick: toggle,
   }
 
-  function getTogglerProps({onClick, ...props}) {
+  function getTogglerProps({onClick = noop, ...props}) {
     return {
       ...togglerProps,
       onClick: callAll(() => onClick('test'), toggle),
