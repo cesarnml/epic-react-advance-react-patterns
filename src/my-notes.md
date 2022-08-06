@@ -38,4 +38,6 @@ function callAll(...fns) {
 
 ### Lesson 05 - State Reducer
 
+- *The State Reducer Pattern inverts control over the state management of your hook and/or component to the developer using it so they can control the state changes that happen when dispatching events.*
+
 ### Lesson 06 - Control Props
