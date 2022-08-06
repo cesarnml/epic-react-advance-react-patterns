@@ -39,5 +39,8 @@ function callAll(...fns) {
 ### Lesson 05 - State Reducer
 
 - *The State Reducer Pattern inverts control over the state management of your hook and/or component to the developer using it so they can control the state changes that happen when dispatching events.*
+- Essentially a hook or a component enables the consumer of the hook/component to pass a custom reducer method to fully control state updates
 
 ### Lesson 06 - Control Props
+
+- *The Control Props patterns allows users to completely control state values within your component. This differs from the state reducer pattern in the fact that you can not only change the state changes based on actions dispatched but you **also** can trigger state changes from outside the component or hoo as well*
