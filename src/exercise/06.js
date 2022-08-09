@@ -1,8 +1,10 @@
 // Control Props
 // http://localhost:3000/isolated/exercise/06.js
 
+import {noop} from 'lodash'
 import * as React from 'react'
 import {Switch} from '../switch'
+import warning from 'warning'
 
 const callAll =
   (...fns) =>
@@ -32,7 +34,7 @@ function useToggle({
   on: controlledOn,
   initialOn = false,
   reducer = toggleReducer,
-  onChange = () => {},
+  onChange,
   // 🐨 add an `onChange` prop.
   // 🐨 add an `on` option here
   // 💰 you can alias it to `controlledOn` to avoid "variable shadowing."
@@ -130,6 +132,9 @@ function App() {
 
   return (
     <div>
+      <div>
+        <Toggle on={bothOn} />
+      </div>
       <div>
         <Toggle on={bothOn} onChange={handleToggleChange} />
         <Toggle on={bothOn} onChange={handleToggleChange} />
