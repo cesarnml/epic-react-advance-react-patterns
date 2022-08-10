@@ -108,8 +108,15 @@ function useToggle({
 }
 
 function Toggle({on: controlledOn, onChange}) {
+  console.log('onChange:', !!onChange)
+  console.log('controlledOn:', controlledOn)
   const {on, getTogglerProps} = useToggle({on: controlledOn, onChange})
   const props = getTogglerProps({on})
+  const prevToggleValueRef = React.useRef(controlledOn)
+  warning(
+    !(controlledOn != null && !onChange),
+    'read-only component created. if should be mutable use `defaultValue or pass an onChange handler',
+  )
   return <Switch {...props} />
 }
 
@@ -132,12 +139,12 @@ function App() {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <Toggle on={bothOn} />
-      </div>
+      </div> */}
       <div>
         <Toggle on={bothOn} onChange={handleToggleChange} />
-        <Toggle on={bothOn} onChange={handleToggleChange} />
+        {/* <Toggle on={bothOn} onChange={handleToggleChange} /> */}
       </div>
       {timesClicked > 4 ? (
         <div data-testid="notice">
@@ -151,11 +158,11 @@ function App() {
       <hr />
       <div>
         <div>Uncontrolled Toggle:</div>
-        <Toggle
+        {/* <Toggle
           onChange={(...args) =>
             console.info('Uncontrolled Toggle onChange', ...args)
           }
-        />
+        /> */}
       </div>
     </div>
   )
