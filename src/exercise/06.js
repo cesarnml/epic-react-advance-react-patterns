@@ -122,11 +122,21 @@ function Toggle({on: controlledOn, onChange}) {
 
 function App() {
   const [bothOn, setBothOn] = React.useState()
+  const prevOn = React.useRef(bothOn)
   const [timesClicked, setTimesClicked] = React.useState(0)
   function handleToggleChange(state, action) {
     if (action.type === actionTypes.toggle && timesClicked > 4) {
       return
     }
+    prevOn.current = bothOn
+    warning(
+      !(
+        (prevOn.current === null || prevOn.current === undefined) &&
+        (state.on === true || state.on === false)
+      ),
+      'changing uncontrolled component to controlled',
+    )
+
     setBothOn(state.on)
     setTimesClicked(c => c + 1)
   }
