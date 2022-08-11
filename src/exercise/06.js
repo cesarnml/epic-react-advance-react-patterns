@@ -110,20 +110,19 @@ function useToggle({
 function Toggle({on: controlledOn, onChange}) {
   console.log('onChange:', !!onChange)
   console.log('controlledOn:', controlledOn)
+
   const {on, getTogglerProps} = useToggle({on: controlledOn, onChange})
   const props = getTogglerProps({on})
-  const prevToggleValueRef = React.useRef(controlledOn)
   warning(
     !(controlledOn != null && !onChange),
-    'read-only component created. if should be mutable use `defaultValue or pass an onChange handler',
+    'wow bitch you are turning an uncontrolled component to controlled',
   )
   return <Switch {...props} />
 }
 
 function App() {
-  const [bothOn, setBothOn] = React.useState(false)
+  const [bothOn, setBothOn] = React.useState()
   const [timesClicked, setTimesClicked] = React.useState(0)
-
   function handleToggleChange(state, action) {
     if (action.type === actionTypes.toggle && timesClicked > 4) {
       return
