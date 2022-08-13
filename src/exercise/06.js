@@ -44,41 +44,34 @@ function useToggle({
   // 🐨 determine whether on is controlled and assign that to `onIsControlled`
   // 💰 `controlledOn != null`
   const isOnControlled = controlledOn !== undefined
-
-  // 🐨 Replace the next line with assigning `on` to `controlledOn` if
-  // `onIsControlled`, otherwise, it should be `state.on`.
-  // const {on} = state
+  const hasOnChange = onChange !== undefined
+  const wasControlled = React.useRef(isOnControlled)
+  console.log('wasControlled:', wasControlled.current)
+  console.log('isOnControlled:', isOnControlled)
+  console.log('hasOnChange:', hasOnChange)
   const on = isOnControlled ? controlledOn : state.on
-  // We want to call `onChange` any time we need to make a state change, but we
-  // only want to call `dispatch` if `!onIsControlled` (otherwise we could get
-  // unnecessary renders).
-  // 🐨 To simplify things a bit, let's make a `dispatchWithOnChange` function
-  // right here. This will:
-  // 1. accept an action
-  // 2. if onIsControlled is false, call dispatch with that action
-  // 3. Then call `onChange` with our "suggested changes" and the action.
+
+  React.useEffect(() => {
+    console.log('running effect')
+    warning(!(isOnControlled && !hasOnChange), 'Creating a read-only Toggle')
+    warning(
+      !(!wasControlled && isOnControlled && hasOnChange),
+      'Changing a uncontrolled component to controlled. devs behaving badly',
+    )
+    warning(
+      !(wasControlled && !isOnControlled && hasOnChange),
+      'Changing controlled to uncontrolled',
+    )
+    wasControlled.current = isOnControlled
+  }, [hasOnChange, isOnControlled])
+
   function dispatchWithOnChange(action) {
     if (!isOnControlled) {
       dispatch(action)
     }
     onChange?.(reducer({...state, on}, action), action)
+    // make these call `dispatchWithOnChange` instead
   }
-  // 🦉 "Suggested changes" refers to: the changes we would make if we were
-  // managing the state ourselves. This is similar to how a controlled <input />
-  // `onChange` callback works. When your handler is called, you get an event
-  // which has information about the value input that _would_ be set to if that
-  // state were managed internally.
-  // So how do we determine our suggested changes? What code do we have to
-  // calculate the changes based on the `action` we have here? That's right!
-  // The reducer! So if we pass it the current state and the action, then it
-  // should return these "suggested changes!"
-  //
-  // 💰 Sorry if Olivia the Owl is cryptic. Here's what you need to do for that onChange call:
-  // `onChange(reducer({...state, on}, action), action)`
-  // 💰 Also note that user's don't *have* to pass an `onChange` prop (it's not required)
-  // so keep that in mind when you call it! How could you avoid calling it if it's not passed?
-
-  // make these call `dispatchWithOnChange` instead
   const toggle = () => dispatchWithOnChange({type: actionTypes.toggle})
   const reset = () =>
     dispatchWithOnChange({type: actionTypes.reset, initialState})
@@ -108,34 +101,19 @@ function useToggle({
 }
 
 function Toggle({on: controlledOn, onChange}) {
-  console.log('onChange:', !!onChange)
-  console.log('controlledOn:', controlledOn)
-
   const {on, getTogglerProps} = useToggle({on: controlledOn, onChange})
   const props = getTogglerProps({on})
-  warning(
-    !(controlledOn != null && !onChange),
-    'wow bitch you are turning an uncontrolled component to controlled',
-  )
   return <Switch {...props} />
 }
 
 function App() {
-  const [bothOn, setBothOn] = React.useState()
-  const prevOn = React.useRef(bothOn)
+  const [bothOn, setBothOn] = React.useState(false)
   const [timesClicked, setTimesClicked] = React.useState(0)
+
   function handleToggleChange(state, action) {
     if (action.type === actionTypes.toggle && timesClicked > 4) {
       return
     }
-    prevOn.current = bothOn
-    warning(
-      !(
-        (prevOn.current === null || prevOn.current === undefined) &&
-        (state.on === true || state.on === false)
-      ),
-      'changing uncontrolled component to controlled',
-    )
 
     setBothOn(state.on)
     setTimesClicked(c => c + 1)
@@ -152,6 +130,7 @@ function App() {
         <Toggle on={bothOn} />
       </div> */}
       <div>
+        <button onClick={() => setBothOn()}>Uncontrol Toggle</button>
         <Toggle on={bothOn} onChange={handleToggleChange} />
         {/* <Toggle on={bothOn} onChange={handleToggleChange} /> */}
       </div>
