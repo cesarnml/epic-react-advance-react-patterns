@@ -35,6 +35,7 @@ function useToggle({
   initialOn = false,
   reducer = toggleReducer,
   onChange,
+  readOnly = false,
   // 🐨 add an `onChange` prop.
   // 🐨 add an `on` option here
   // 💰 you can alias it to `controlledOn` to avoid "variable shadowing."
@@ -53,7 +54,10 @@ function useToggle({
 
   React.useEffect(() => {
     console.log('running effect')
-    warning(!(isOnControlled && !hasOnChange), 'Creating a read-only Toggle')
+    warning(
+      !(isOnControlled && !hasOnChange && !readOnly),
+      'Creating a read-only Toggle',
+    )
     warning(
       !(!wasControlled && isOnControlled && hasOnChange),
       'Changing a uncontrolled component to controlled. devs behaving badly',
@@ -63,7 +67,7 @@ function useToggle({
       'Changing controlled to uncontrolled',
     )
     wasControlled.current = isOnControlled
-  }, [hasOnChange, isOnControlled])
+  }, [hasOnChange, isOnControlled, readOnly])
 
   function dispatchWithOnChange(action) {
     if (!isOnControlled) {
